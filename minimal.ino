@@ -108,6 +108,10 @@ float getPot()
 
 void setup()
 {
+    pinMode(LED_R, OUTPUT);
+    pinMode(LED_G, OUTPUT);
+    pinMode(LED_B, OUTPUT);
+
     pinMode(ENABLE, OUTPUT);
     pinMode(DIRA, OUTPUT);
     pinMode(DIRB, OUTPUT);
@@ -139,8 +143,13 @@ void loop()
     lcd.print(pot);
     lcd.print("     ");
 
+    digitalWrite(LED_R, LOW);
+    digitalWrite(LED_G, LOW);
+    digitalWrite(LED_B, LOW);
+
     if (pot > HIGH_THRESHOLD)
     {
+        digitalWrite(LED_R, HIGH);
         digitalWrite(ENABLE, HIGH); // enable on
         digitalWrite(DIRA, HIGH);   // one way
         digitalWrite(DIRB, LOW);
@@ -151,6 +160,12 @@ void loop()
         digitalWrite(ENABLE, LOW); // enable on
         digitalWrite(DIRA, HIGH);  // one way
         digitalWrite(DIRB, LOW);
+        digitalWrite(LED_G, HIGH);
+    }
+
+    if (pot > LOW_THRESHOLD && pot < HIGH_THRESHOLD)
+    {
+        digitalWrite(LED_B, HIGH);
     }
 
     delay(1000);
