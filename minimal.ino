@@ -106,6 +106,16 @@ float getPot()
     return analogRead(POT_IN);
 }
 
+void buzzerOn(int freq)
+{
+    tone(BUZZER, freq);
+}
+
+void buzzerOff()
+{
+    noTone(BUZZER);
+}
+
 void setup()
 {
     pinMode(LED_R, OUTPUT);
@@ -149,6 +159,7 @@ void loop()
 
     if (pot > HIGH_THRESHOLD)
     {
+        buzzerOn(262);
         digitalWrite(LED_R, HIGH);
         digitalWrite(ENABLE, HIGH); // enable on
         digitalWrite(DIRA, HIGH);   // one way
@@ -157,6 +168,7 @@ void loop()
     else
     {
         Serial.println("Stopping");
+        buzzerOff();
         digitalWrite(ENABLE, LOW); // enable on
         digitalWrite(DIRA, HIGH);  // one way
         digitalWrite(DIRB, LOW);
@@ -165,6 +177,7 @@ void loop()
 
     if (pot > LOW_THRESHOLD && pot < HIGH_THRESHOLD)
     {
+        buzzerOff();
         digitalWrite(LED_B, HIGH);
     }
 
