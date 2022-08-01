@@ -1,7 +1,7 @@
 
 #include <Arduino.h>
 #include <LiquidCrystal_74HC595.h>
-// #include <DHT.h>
+#include <DHT.h>
 
 /// LCD
 #define SHIFT_DS 13    // Shift Reg Data (input)
@@ -43,7 +43,7 @@
 #define LOW_THRESHOLD 350
 #define HIGH_THRESHOLD 700
 
-// DHT dht = DHT(DHT_TMP_IN, DHT11);
+DHT dht = DHT(DHT_TMP_IN, DHT11);
 
 LiquidCrystal_74HC595 lcd(SHIFT_DS, SHIFT_SH_CP, SHIFT_ST_CP, LCD_RS, LCD_E, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
 
@@ -90,15 +90,15 @@ float getThemistorTempF()
     return f;
 }
 
-// float getDHTTempF()
-// {
-//   float f = (dht.readTemperature() * 1.8) + 32;
-//   return f;
-// }
+float getDHTTempF()
+{
+    float f = (dht.readTemperature() * 1.8) + 32;
+    return f;
+}
 
 float getTempF()
 {
-    return getThemistorTempF();
+    return (getThemistorTempF() + getDHTTempF()) / 2;
 }
 
 float getPot()
